@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Identity & Leadership Design System</title>
+  
+  <!-- Google Fonts: Montserrat (700, 800, 900) & Nunito (400, 600, 700) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* CSS Variables & Tokens */
+    :root {
+      --primary-navy: #004a8f;
+      --accent-yellow: #fcd53f;
+      --accent-yellow-hover: #e5be2d;
+      --secondary-green: #28a745;
+      --light-blue-bg: #e6f0f9;
+      --neutral-bg: #f4f7fa;
+      --white: #ffffff;
+      --gray-100: #f1f5f9;
+      --gray-200: #e2e8f0;
+      --gray-300: #cbd5e1;
+      --gray-600: #475569;
+      --gray-700: #334155;
+      --gray-800: #1e293b;
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --font-heading: 'Montserrat', sans-serif;
+      --font-body: 'Nunito', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--gray-800);
+      background-color: var(--white);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, .brand-font {
+      font-family: var(--font-heading);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* Marker Highlight */
+    .marker-underline {
+      position: relative;
+      display: inline-block;
+      white-space: nowrap;
+      z-index: 1;
+    }
+
+    .marker-underline::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 100%;
+      height: 10px;
+      background-color: var(--accent-yellow);
+      z-index: -1;
+      transform: rotate(-2deg);
+      border-radius: 2px;
+    }
+
+    /* Header */
+    header.sticky-nav {
+      position: sticky;
+      top: 0;
+      height: 80px;
+      background-color: var(--white);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+
+    .logo-stack {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    .logo-text h2 {
+      font-size: 1.75rem;
+      font-weight: 900;
+      color: var(--primary-navy);
+      letter-spacing: -0.5px;
+      line-height: 1.1;
+    }
+
+    .logo-text span {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--gray-600);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .vertical-divider {
+      width: 2px;
+      height: 40px;
+      background-color: var(--gray-300);
+    }
+
+    .party-logo-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--light-blue-bg);
+      padding: 0.4rem 0.8rem;
+      border-radius: 0.5rem;
+      font-weight: 800;
+      color: var(--primary-navy);
+      font-size: 0.9rem;
+    }
+
+    .party-logo-badge i {
+      color: var(--secondary-green);
+    }
+
+    .header-slogan {
+      text-align: right;
+      color: var(--primary-navy);
+      font-weight: 700;
+      font-size: 0.95rem;
+      line-height: 1.3;
+    }
+
+    .header-slogan span {
+      display: block;
+      color: var(--gray-600);
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+
+    /* Hero Section */
+    .hero-section {
+      background-color: var(--light-blue-bg);
+      position: relative;
+      padding-top: 5rem;
+      padding-bottom: 0;
+      overflow: hidden;
+    }
+
+    .hero-content {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 3rem;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+      padding-bottom: 5rem;
+    }
+
+    .hero-text-stack h1 {
+      font-size: clamp(2.5rem, 5vw, 4.2rem);
+      font-weight: 900;
+      color: var(--primary-navy);
+      line-height: 1.08;
+      margin-bottom: 1.5rem;
+      letter-spacing: -1.5px;
+    }
+
+    .hero-subtitle {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--gray-700);
+      margin-bottom: 2rem;
+      max-width: 540px;
+    }
+
+    /* Identity Badge Card */
+    .identity-badge {
+      background: var(--white);
+      border-radius: 0.75rem;
+      box-shadow: var(--shadow-lg);
+      border-left: 8px solid var(--accent-yellow);
+      padding: 1.75rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 480px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .identity-badge:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.12);
+    }
+
+    .badge-name-stack {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .badge-role {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--gray-600);
+      margin-bottom: 0.25rem;
+    }
+
+    .badge-name {
+      font-family: var(--font-heading);
+      font-weight: 900;
+      font-size: 1.85rem;
+      color: var(--gray-800);
+      line-height: 1.1;
+    }
+
+    .badge-divider-icon {
+      color: var(--accent-yellow-hover);
+      display: flex;
+      align-items: center;
+      padding: 0 1rem;
+    }
+
+    .badge-number-box {
+      text-align: right;
+    }
+
+    .badge-number-label {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--secondary-green);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-number {
+      font-family: var(--font-heading);
+      font-weight: 900;
+      font-size: 3rem;
+      color: var(--primary-navy);
+      line-height: 1;
+    }
+
+    /* Three-layered SVG wave transitions */
+    .hero-waves-wrapper {
+      position: relative;
+      width: 100%;
+      height: 140px;
+      margin-top: -30px;
+      overflow: hidden;
+      line-height: 0;
+    }
+
+    .hero-waves-wrapper svg {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* About Section */
+    .about-section {
+      background: var(--white);
+      padding: 6.5rem 0;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .about-left-col h2 {
+      font-size: 2.75rem;
+      font-weight: 900;
+      color: var(--primary-navy);
+      line-height: 1.15;
+      margin-bottom: 1.75rem;
+    }
+
+    .about-lead-text {
+      font-size: 18px;
+      color: var(--gray-700);
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+
+    .about-lead-text p {
+      margin-bottom: 1.25rem;
+    }
+
+    .about-badge-inline {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--light-blue-bg);
+      color: var(--primary-navy);
+      font-weight: 700;
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      margin-top: 0.5rem;
+    }
+
+    /* 2x2 Grid of value propositions */
+    .values-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .value-card {
+      background: var(--neutral-bg);
+      padding: 2rem 1.75rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .value-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .icon-container {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+    }
+
+    .icon-navy {
+      background: rgba(0, 74, 143, 0.12);
+      color: var(--primary-navy);
+    }
+
+    .icon-yellow {
+      background: rgba(252, 213, 63, 0.3);
+      color: #b38600;
+    }
+
+    .icon-green {
+      background: rgba(40, 167, 69, 0.15);
+      color: var(--secondary-green);
+    }
+
+    .value-card h3 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--primary-navy);
+      margin-bottom: 0.5rem;
+    }
+
+    .value-card p {
+      font-size: 0.95rem;
+      color: var(--gray-600);
+      line-height: 1.5;
+    }
+
+    /* Features or Proposals Section */
+    .proposals-section {
+      background-color: var(--neutral-bg);
+      padding: 6.5rem 0;
+    }
+
+    .proposals-grid {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 4rem;
+      align-items: flex-start;
+    }
+
+    .artistic-left {
+      position: sticky;
+      top: 120px;
+    }
+
+    .rotated-heading {
+      font-size: clamp(2.4rem, 4vw, 3.5rem);
+      font-weight: 900;
+      color: var(--primary-navy);
+      transform: rotate(-3deg);
+      line-height: 1.15;
+      margin-bottom: 2rem;
+      display: inline-block;
+    }
+
+    .proposals-side-desc {
+      font-size: 1.1rem;
+      color: var(--gray-700);
+      font-weight: 600;
+      line-height: 1.7;
+      max-width: 420px;
+    }
+
+    .cards-vertical-list {
+      display: flex;
+      flex-direction: column;
+      gap: 40px; /* Exact spec: 40px spacing */
+    }
+
+    .proposal-card {
+      background: var(--white);
+      border-radius: 1rem;
+      padding: 2rem 2.25rem;
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: flex-start;
+      gap: 1.75rem;
+      transition: transform 0.2s ease;
+      border: 1px solid rgba(226, 232, 240, 0.8);
+    }
+
+    .proposal-card:hover {
+      transform: translateX(6px);
+    }
+
+    .proposal-content h4 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--primary-navy);
+      margin-bottom: 0.5rem;
+    }
+
+    .proposal-content p {
+      color: var(--gray-600);
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    /* CTA Section */
+    .cta-section {
+      background-color: var(--primary-navy);
+      padding: 5.5rem 0;
+      position: relative;
+      overflow: hidden;
+      color: var(--white);
+    }
+
+    /* Abstract circular shapes in bottom right */
+    .abstract-circle-green {
+      position: absolute;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      background: var(--secondary-green);
+      opacity: 0.18;
+      bottom: -150px;
+      right: -100px;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .abstract-circle-yellow {
+      position: absolute;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      background: var(--accent-yellow);
+      opacity: 0.22;
+      bottom: -80px;
+      right: 180px;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .cta-wrapper {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2.5rem;
+    }
+
+    .cta-icon-box {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.12);
+      border: 2px solid rgba(252, 213, 63, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-yellow);
+      flex-shrink: 0;
+    }
+
+    .cta-text-center {
+      flex: 1;
+    }
+
+    .cta-text-center h3 {
+      font-size: 2.2rem;
+      font-weight: 900;
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+      color: var(--white);
+    }
+
+    .cta-text-center p {
+      font-size: 1.15rem;
+      color: var(--light-blue-bg);
+      font-weight: 600;
+    }
+
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      background-color: var(--accent-yellow);
+      color: var(--primary-navy);
+      font-family: var(--font-heading);
+      font-size: 1.1rem;
+      font-weight: 900;
+      padding: 1.1rem 2.5rem;
+      border-radius: 9999px;
+      text-decoration: none;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+      transition: background-color 0.2s ease, transform 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .cta-button:hover {
+      background-color: var(--accent-yellow-hover);
+      transform: translateY(-2px);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--white);
+      border-top: 1px solid var(--gray-200);
+      padding-top: 4.5rem;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1.2fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 4rem;
+    }
+
+    .footer-col-1 h3 {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--primary-navy);
+      margin-bottom: 0.25rem;
+    }
+
+    .footer-col-1 .sub {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--gray-600);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .footer-col-1 p {
+      font-size: 0.95rem;
+      color: var(--gray-600);
+      line-height: 1.6;
+    }
+
+    .footer-col-2 {
+      border-left: 4px solid var(--primary-navy);
+      padding-left: 1.5rem;
+    }
+
+    .footer-col-2 h4 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--primary-navy);
+      margin-bottom: 0.75rem;
+    }
+
+    .footer-col-2 p {
+      font-size: 0.95rem;
+      color: var(--gray-700);
+      line-height: 1.6;
+    }
+
+    .footer-col-3 h4, .footer-col-4 h4 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--primary-navy);
+      margin-bottom: 1rem;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+      color: var(--gray-700);
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .contact-item i {
+      color: var(--primary-navy);
+    }
+
+    .admin-details {
+      font-size: 0.85rem;
+      color: var(--gray-600);
+      line-height: 1.6;
+    }
+
+    .admin-details span {
+      display: block;
+      font-weight: 700;
+      color: var(--gray-700);
+      margin-bottom: 0.25rem;
+    }
+
+    .footer-bottom-bar {
+      background-color: var(--primary-navy);
+      color: var(--white);
+      padding: 1.25rem 0;
+      text-align: center;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+      .hero-content, .about-grid, .proposals-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+      .artistic-left {
+        position: static;
+      }
+      .cta-wrapper {
+        flex-direction: column;
+        text-align: center;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .header-slogan {
+        display: none;
+      }
+      .values-grid, .footer-grid {
+        grid-template-columns: 1fr;
+      }
+      .identity-badge {
+        flex-direction: column;
+        gap: 1.25rem;
+        text-align: center;
+      }
+      .badge-number-box {
+        text-align: center;
+      }
+      .badge-divider-icon {
+        transform: rotate(90deg);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="sticky-nav">
+    <div class="container nav-wrapper">
+      <div class="logo-stack">
+        <div class="logo-text">
+          <h2>LEADERSHIP 2026</h2>
+          <span>Integrity • Progress • Action</span>
+        </div>
+        <div class="vertical-divider"></div>
+        <div class="party-logo-badge">
+          <i data-lucide="shield-check" style="width: 20px; height: 20px;"></i>
+          ALLIANCE
+        </div>
+      </div>
+      <div class="header-slogan">
+        Building a Stronger Community
+        <span>Official Campaign & Policy Registry</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container hero-content">
+      <div class="hero-text-stack">
+        <h1>Courage to Lead.<br>Power to <span class="marker-underline">Transform</span>.</h1>
+        <p class="hero-subtitle">
+          A modern vision dedicated to real governance, transparent action, and measurable growth for every citizen.
+        </p>
+
+        <!-- Identity Badge Card -->
+        <div class="identity-badge">
+          <div class="badge-name-stack">
+            <span class="badge-role">Official Candidate</span>
+            <span class="badge-name">CARLOS SILVA</span>
+          </div>
+          <div class="badge-divider-icon">
+            <i data-lucide="chevron-right" style="width: 32px; height: 32px;"></i>
+          </div>
+          <div class="badge-number-box">
+            <div class="badge-number-label">Voting Number</div>
+            <div class="badge-number">45100</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Three-layered SVG paths in Green, Yellow, and Navy -->
+    <div class="hero-waves-wrapper">
+      <!-- Layer 1: Growth Green (#28a745) -->
+      <svg viewBox="0 0 1440 160" fill="none" preserveAspectRatio="none">
+        <path d="M0,45 C320,130 640,-20 1020,70 C1240,115 1360,50 1440,30 L1440,160 L0,160 Z" fill="#28a745" fill-opacity="0.9"></path>
+      </svg>
+      <!-- Layer 2: Sunshine Yellow (#fcd53f) -->
+      <svg viewBox="0 0 1440 160" fill="none" preserveAspectRatio="none">
+        <path d="M0,75 C240,20 540,120 880,55 C1140,10 1340,90 1440,65 L1440,160 L0,160 Z" fill="#fcd53f"></path>
+      </svg>
+      <!-- Layer 3: Deep Navy (#004a8f) -->
+      <svg viewBox="0 0 1440 160" fill="none" preserveAspectRatio="none">
+        <path d="M0,105 C380,40 720,135 1100,85 C1280,60 1380,100 1440,95 L1440,160 L0,160 Z" fill="#ffffff"></path>
+      </svg>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="about-section">
+    <div class="container about-grid">
+      <!-- Left Column: Long-form copy -->
+      <div class="about-left-col">
+        <h2>Committed to Concrete Results and <span class="marker-underline">Accountability</span></h2>
+        <div class="about-lead-text">
+          <p>
+            True public service requires unwavering dedication and high ethical standards. Our platform was crafted through direct community dialogues, understanding that sustainable regional development starts with empowering local families, fostering business innovation, and revitalizing healthcare access.
+          </p>
+          <p>
+            With over 15 years of proven executive leadership in municipal infrastructure and civic advocacy, we bring a practical, data-driven approach to solving our city’s most pressing dilemmas. We do not deal in empty promises; we deliver structured, measurable execution.
+          </p>
+        </div>
+        <div class="about-badge-inline">
+          <i data-lucide="award" style="width: 20px; height: 20px;"></i>
+          Certified Public Governance Standard 2026
+        </div>
+      </div>
+
+      <!-- Right Column: 2x2 grid of value propositions -->
+      <div class="values-grid">
+        <div class="value-card">
+          <div class="icon-container icon-navy">
+            <i data-lucide="scale" style="width: 32px; height: 32px;"></i>
+          </div>
+          <h3>Integrity First</h3>
+          <p>Full financial transparency with public ledger audits for every civic project.</p>
+        </div>
+
+        <div class="value-card">
+          <div class="icon-container icon-yellow">
+            <i data-lucide="trending-up" style="width: 32px; height: 32px;"></i>
+          </div>
+          <h3>Economic Growth</h3>
+          <p>Incentivizing micro-enterprises and expanding technology vocational hubs.</p>
+        </div>
+
+        <div class="value-card">
+          <div class="icon-container icon-green">
+            <i data-lucide="heart-pulse" style="width: 32px; height: 32px;"></i>
+          </div>
+          <h3>Health & Dignity</h3>
+          <p>Modernized primary clinics equipped with reliable medicine supplies.</p>
+        </div>
+
+        <div class="value-card">
+          <div class="icon-container icon-navy">
+            <i data-lucide="book-open" style="width: 32px; height: 32px;"></i>
+          </div>
+          <h3>Quality Schools</h3>
+          <p>Full-day educational programs pairing academic rigor with digital literacy.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features or Proposals Section -->
+  <section class="proposals-section">
+    <div class="container proposals-grid">
+      <!-- Left Column: Artistic Typography -->
+      <div class="artistic-left">
+        <h2 class="rotated-heading">
+          Action Plans Built for <br><span class="marker-underline">Real Impact</span>
+        </h2>
+        <p class="proposals-side-desc">
+          Explore our strategic pillars engineered to modernize public safety, clean urban mobility, and digital government access.
+        </p>
+      </div>
+
+      <!-- Right Column: Vertical list of cards with 40px spacing -->
+      <div class="cards-vertical-list">
+        <div class="proposal-card">
+          <div class="icon-container icon-navy" style="flex-shrink: 0; margin-bottom: 0;">
+            <i data-lucide="cpu" style="width: 30px; height: 30px;"></i>
+          </div>
+          <div class="proposal-content">
+            <h4>Digital Citizen Portal</h4>
+            <p>Eliminate bureaucratic red tape by transferring 100% of municipal permit applications, licensing, and public queries into an encrypted mobile-first portal.</p>
+          </div>
+        </div>
+
+        <div class="proposal-card">
+          <div class="icon-container icon-yellow" style="flex-shrink: 0; margin-bottom: 0;">
+            <i data-lucide="bus" style="width: 30px; height: 30px;"></i>
+          </div>
+          <div class="proposal-content">
+            <h4>Connected Urban Mobility</h4>
+            <p>Integrating express bus lanes, expanding solar-powered micro-transit corridors, and repaving high-traffic arterial connectors across suburban hubs.</p>
+          </div>
+        </div>
+
+        <div class="proposal-card">
+          <div class="icon-container icon-green" style="flex-shrink: 0; margin-bottom: 0;">
+            <i data-lucide="trees" style="width: 30px; height: 30px;"></i>
+          </div>
+          <div class="proposal-content">
+            <h4>Sustainable Green Corridors</h4>
+            <p>Preserving riverbank ecosystems and planting 50,000 native shade trees along pedestrian paths to decrease urban heat island temperatures.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="abstract-circle-green"></div>
+    <div class="abstract-circle-yellow"></div>
+    <div class="container cta-wrapper">
+      <div class="cta-icon-box">
+        <i data-lucide="megaphone" style="width: 44px; height: 44px;"></i>
+      </div>
+      <div class="cta-text-center">
+        <h3>Join the Movement for Change</h3>
+        <p>Sign up to receive the full policy manifesto or volunteer in your district.</p>
+      </div>
+      <a href="#volunteer" class="cta-button">
+        <span>Get Involved Today</span>
+        <i data-lucide="arrow-right" style="width: 20px; height: 20px;"></i>
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-grid">
+      <!-- Col 1: Identity/Logo -->
+      <div class="footer-col-1">
+        <h3>CARLOS SILVA</h3>
+        <span class="sub">Leadership 2026</span>
+        <p>Empowering neighborhoods through transparent, people-centered civic leadership.</p>
+      </div>
+
+      <!-- Col 2: Mission Statement -->
+      <div class="footer-col-2">
+        <h4>Our Mission</h4>
+        <p>To establish modern, responsive public governance that prioritizes education, economic equity, and environmental sustainability for future generations.</p>
+      </div>
+
+      <!-- Col 3: Contact & Location -->
+      <div class="footer-col-3">
+        <h4>Headquarters</h4>
+        <div class="contact-item">
+          <i data-lucide="map-pin" style="width: 18px; height: 18px;"></i>
+          <span>Av. Paulista, 1800 - 12th Floor</span>
+        </div>
+        <div class="contact-item">
+          <i data-lucide="mail" style="width: 18px; height: 18px;"></i>
+          <span>contato@carlossilva.org</span>
+        </div>
+        <div class="contact-item">
+          <i data-lucide="phone" style="width: 18px; height: 18px;"></i>
+          <span>+55 (11) 3450-8900</span>
+        </div>
+      </div>
+
+      <!-- Col 4: Administrative / CNPJ Details -->
+      <div class="footer-col-4">
+        <h4>Legal & Compliance</h4>
+        <div class="admin-details">
+          <span>CNPJ: 54.321.987/0001-90</span>
+          <span>Electoral Reg: #45100-SP</span>
+          <span>Treasurer: Marcos Vinicius C. Lima</span>
+          <span>Legal Counsel: Advocacia Ferreira & Assoc.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Full-width bottom bar -->
+    <div class="footer-bottom-bar">
+      <div class="container">
+        © 2026 Carlos Silva Campaign Committee. All Rights Reserved. Paid for by Coligação Renovação e Futuro.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+  </script>
+</body>
+</html>
